@@ -1,0 +1,41 @@
+# Reconhece palindromos sobre o alfabeto {0, 1}.
+#
+# Estrategia: apaga o simbolo da ponta esquerda, caminha ate a ponta direita e
+# confere se o simbolo de la e o mesmo; se for, apaga tambem e volta ao inicio.
+# A palavra e aceita quando a fita fica vazia (ou com um unico simbolo central).
+#
+# Aceita: (vazia), 0, 1, 11, 101, 1001, 01010
+# Rejeita: 10, 100, 1101
+
+NOME: Palindromo binario
+INICIAL: q0
+FINAIS: qf
+
+TRANSICOES:
+# q0 - le e apaga o simbolo mais a esquerda
+q0 0 q1 _ R
+q0 1 q2 _ R
+q0 _ qf _ R
+
+# q1 - lembra que leu 0; avanca ate o fim da fita
+q1 0 q1 0 R
+q1 1 q1 1 R
+q1 _ q3 _ L
+
+# q2 - lembra que leu 1; avanca ate o fim da fita
+q2 0 q2 0 R
+q2 1 q2 1 R
+q2 _ q4 _ L
+
+# q3 - o ultimo simbolo precisa ser 0
+q3 0 q5 _ L
+q3 _ qf _ R
+
+# q4 - o ultimo simbolo precisa ser 1
+q4 1 q5 _ L
+q4 _ qf _ R
+
+# q5 - volta ao inicio da parte que ainda resta
+q5 0 q5 0 L
+q5 1 q5 1 L
+q5 _ q0 _ R
